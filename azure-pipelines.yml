@@ -20,4 +20,9 @@ steps:
     jdkArchitectureOption: 'x64'
     publishJUnitResults: false
     testResultsFiles: '**/TEST-*.xml'
-    tasks: 'gauge'
+    tasks: 'build'
+
+  - script: |
+      starting gauge test
+      ./gradlew gauge
+    displayName: 'gauge test'
