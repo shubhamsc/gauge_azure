@@ -7,7 +7,7 @@ trigger:
 - master
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'macOS-10.13'
 
 steps:
 - task: Gradle@2
@@ -23,6 +23,11 @@ steps:
     tasks: 'build'
 
 - script: |
-    starting gauge test
-    ./gradlew gauge
+    echo installing gauge
+    brew install gauge
+  displayName: 'install gauge'
+
+- script: |
+    echo starting gauge test
+    ./gradlew clean gauge
   displayName: 'gauge test'
