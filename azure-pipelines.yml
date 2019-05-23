@@ -22,7 +22,7 @@ steps:
     testResultsFiles: '**/TEST-*.xml'
     tasks: 'build'
 
-  - script: |
-      starting gauge test
-      ./gradlew gauge
-    displayName: 'gauge test'
+- script: |
+    starting gauge test
+    ./gradlew gauge
+  displayName: 'gauge test'
