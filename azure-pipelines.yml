@@ -6,55 +6,58 @@
 trigger:
   - master
 
+variables:
+  GAUGE_TELEMETRY_ENABLED: false
+
 jobs:
-  - job: MacOS
+- job: MacOS
 
-    pool:
-      vmImage: 'macOS-10.13'
+  pool:
+    vmImage: 'macOS-10.13'
 
-    steps:
-      - script:
-          echo installing gauge
-          brew install gauge
-        displayName: 'install gauge'
+  steps:
+  - script:
+      echo installing gauge
+      brew install gauge
+    displayName: 'install gauge'
 
-      - script:
-          echo starting gauge test
-          ./gradlew clean gauge
-        displayName: 'gauge test'
+  - script:
+      echo starting gauge test
+      ./gradlew clean gauge
+    displayName: 'gauge test'
 
-  - job: Linux
+- job: Linux
 
-      pool:
-        vmImage: 'ubuntu-16.04'
+  pool:
+    vmImage: 'ubuntu-16.04'
 
-      steps:
-        - script: |
-            echo installing gauge
-            sudo apt-key adv --keyserver hkp://pool.sks-keyservers.net --recv-keys 023EDB0B
-            echo deb https://dl.bintray.com/gauge/gauge-deb nightly main | sudo tee -a /etc/apt/sources.list
-            sudo apt-get update
-            sudo apt-get install gauge
-        displayName: 'install gauge'
+  steps:
+  - script: |
+      echo installing gauge
+      sudo apt-key adv --keyserver hkp://pool.sks-keyservers.net --recv-keys 023EDB0B
+      echo deb https://dl.bintray.com/gauge/gauge-deb nightly main | sudo tee -a /etc/apt/sources.list
+      sudo apt-get update
+      sudo apt-get install gauge
+    displayName: 'install gauge'
 
-          - script: |
-              echo starting gauge test
-              ./gradlew clean gauge
-        displayName: 'gauge test'
+  - script: |
+      echo starting gauge test
+      ./gradlew clean gauge
+    displayName: 'gauge test'
 
-  - job: Windows
+- job: Windows
 
-      pool:
-        vmImage: 'vs2017-win2016'
+  pool:
+    vmImage: 'vs2017-win2016'
 
 
-      steps:
-        - script: |
-            echo installing gauge
-            choco install gauge
-        displayName: 'install gauge'
+  steps:
+  - script: |
+      echo installing gauge
+      choco install gauge
+    displayName: 'install gauge'
 
-          - script: |
-              echo starting gauge test
-              ./gradlew.bat clean gauge
-        displayName: 'gauge test'
+  - script: |
+      echo starting gauge test
+      ./gradlew.bat clean gauge
+    displayName: 'gauge test'
