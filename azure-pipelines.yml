@@ -4,30 +4,57 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
 
 trigger:
-- master
+  - master
 
-pool:
-  vmImage: 'macOS-10.13'
+jobs:
+  - job: MacOS
 
-steps:
-- task: Gradle@2
-  inputs:
-    workingDirectory: ''
-    gradleWrapperFile: 'gradlew'
-    gradleOptions: '-Xmx3072m'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.8'
-    jdkArchitectureOption: 'x64'
-    publishJUnitResults: false
-    testResultsFiles: '**/TEST-*.xml'
-    tasks: 'build'
+    pool:
+      vmImage: 'macOS-10.13'
 
-- script: |
-    echo installing gauge
-    brew install gauge
-  displayName: 'install gauge'
+    steps:
+      - script:
+          echo installing gauge
+          brew install gauge
+        displayName: 'install gauge'
 
-- script: |
-    echo starting gauge test
-    ./gradlew clean gauge
-  displayName: 'gauge test'
+      - script:
+          echo starting gauge test
+          ./gradlew clean gauge
+        displayName: 'gauge test'
+
+  - job: Linux
+
+      pool:
+        vmImage: 'ubuntu-16.04'
+
+      steps:
+        - script: |
+            echo installing gauge
+            sudo apt-key adv --keyserver hkp://pool.sks-keyservers.net --recv-keys 023EDB0B
+            echo deb https://dl.bintray.com/gauge/gauge-deb nightly main | sudo tee -a /etc/apt/sources.list
+            sudo apt-get update
+            sudo apt-get install gauge
+        displayName: 'install gauge'
+
+          - script: |
+              echo starting gauge test
+              ./gradlew clean gauge
+        displayName: 'gauge test'
+
+  - job: Windows
+
+      pool:
+        vmImage: 'vs2017-win2016'
+
+
+      steps:
+        - script: |
+            echo installing gauge
+            choco install gauge
+        displayName: 'install gauge'
+
+          - script: |
+              echo starting gauge test
+              ./gradlew.bat clean gauge
+        displayName: 'gauge test'
