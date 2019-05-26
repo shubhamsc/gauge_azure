@@ -15,8 +15,8 @@ jobs:
   pool:
     vmImage: 'macOS-10.13'
 
-  steps: |
-  - script:
+  steps:
+  - script: |
       echo installing gauge
       brew install gauge
     displayName: 'install gauge'
