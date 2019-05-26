@@ -63,5 +63,5 @@ jobs:
 
     - powershell: |
         echo starting gauge test
-        ./gradlew.bat clean gauge
+        .\gradlew.bat clean gauge
       displayName: 'gauge test'
